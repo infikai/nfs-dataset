@@ -23,7 +23,7 @@ request = pc.makeRequestRSpec()
 # Only Ubuntu images supported.
 imageList = [
     ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU20-64-STD', 'UBUNTU 20.04'),
-    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5', 'UBUNTU 20.04 cuda11.8')
+    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5', 'UBUNTU 20.04 cuda11.8'),
     ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD', 'UBUNTU 22.04'),
     ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:U2204-A30', 'UBUNTU 22.04 cuda12.8'),
 ]
