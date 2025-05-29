@@ -23,9 +23,9 @@ request = pc.makeRequestRSpec()
 # Only Ubuntu images supported.
 imageList = [
     ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU20-64-STD', 'UBUNTU 20.04'),
-    ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD', 'UBUNTU 18.04'),
-    ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU16-64-STD', 'UBUNTU 16.04'),
-    ('urn:publicid:IDN+emulab.net+image+emulab-ops//CENTOS7-64-STD', 'CENTOS 7'),
+    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5', 'UBUNTU 20.04 cuda11.8')
+    ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD', 'UBUNTU 22.04'),
+    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:U2204-A30', 'UBUNTU 22.04 cuda12.8'),
 ]
 
 # Do not change these unless you change the setup scripts too.
@@ -37,9 +37,14 @@ nfsDirectory  = "/nfs"
 pc.defineParameter("clientCount", "Number of NFS clients",
                    portal.ParameterType.INTEGER, 2)
 
+pc.defineParameter("phystype",  "Optional physical node type",
+                   portal.ParameterType.NODETYPE, "",
+                   longDescription="Pick a single physical node type (pc3000,d710,etc) " +
+                   "instead of letting the resource mapper choose for you.")
+
 pc.defineParameter("dataset", "Your dataset URN",
                    portal.ParameterType.STRING,
-                   "urn:publicid:IDN+emulab.net:portalprofiles+ltdataset+DemoDataset")
+                   "urn:publicid:IDN+wisc.cloudlab.us:dynamicgpu-pg0+stdataset+TestDataset")
 
 pc.defineParameter("osImage", "Select OS image",
                    portal.ParameterType.IMAGE,
@@ -56,7 +61,7 @@ nfsLan.link_multiplexing = True
 
 # The NFS server.
 nfsServer = request.RawPC(nfsServerName)
-nfsServer.disk_image = params.osImage
+nfsServer.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD'
 # Attach server to lan.
 nfsLan.addInterface(nfsServer.addInterface())
 # Initialization script for the server
@@ -79,6 +84,9 @@ dslink.link_multiplexing = True
 for i in range(1, params.clientCount+1):
     node = request.RawPC("node%d" % i)
     node.disk_image = params.osImage
+    if params.phystype != "":
+        node.hardware_type = params.phystype
+        pass
     nfsLan.addInterface(node.addInterface())
     # Initialization script for the clients
     node.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/nfs-client.sh"))
