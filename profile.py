@@ -92,7 +92,7 @@ for i in range(1, params.clientCount+1):
         pass
     nfsLan.addInterface(node.addInterface())
     iface = node.addInterface("interface%d" % i)
-    iface.bandwidth = 25000000
+    iface.bandwidth = 10000000
     link.addInterface(iface)
     # Initialization script for the clients
     node.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/nfs-client.sh"))
