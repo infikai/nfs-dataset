@@ -23,9 +23,9 @@ request = pc.makeRequestRSpec()
 # Only Ubuntu images supported.
 imageList = [
     ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU20-64-STD', 'UBUNTU 20.04'),
-    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5', 'UBUNTU 20.04 cuda11.8'),
+    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5Docker', 'UBUNTU 22.04 cuda12.6'),
     ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD', 'UBUNTU 22.04'),
-    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:U2204-A30', 'UBUNTU 22.04 cuda12.8'),
+    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:d7525Docker', 'UBUNTU 22.04 cuda12.8'),
 ]
 
 # Do not change these unless you change the setup scripts too.
@@ -80,6 +80,9 @@ dslink.best_effort = True
 dslink.vlan_tagging = True
 dslink.link_multiplexing = True
 
+link = request.Link('link')
+link.Site('undefined')
+
 # The NFS clients, also attached to the NFS lan.
 for i in range(1, params.clientCount+1):
     node = request.RawPC("node%d" % i)
@@ -88,6 +91,9 @@ for i in range(1, params.clientCount+1):
         node.hardware_type = params.phystype
         pass
     nfsLan.addInterface(node.addInterface())
+    iface = node.addInterface("interface%d" % i)
+    iface.bandwidth = 25000000
+    link.addInterface(iface)
     # Initialization script for the clients
     node.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/nfs-client.sh"))
     pass
