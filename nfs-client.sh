@@ -110,4 +110,9 @@ echo ""
 echo "Mount of $NFSSERVER:$NFSDIR is ready."
 exit 0
 
+mkdir $HOME/.ssh && chmod 700 $HOME/.ssh
+geni-get key > $HOME/.ssh/id_rsa
+chmod 600 $HOME/.ssh/id_rsa
+ssh-keygen -y -f $HOME/.ssh/id_rsa > $HOME/.ssh/id_rsa.pub
+grep -q -f $HOME/.ssh/id_rsa.pub $HOME/.ssh/authorized_keys2 || cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys2
 
