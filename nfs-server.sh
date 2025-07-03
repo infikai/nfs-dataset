@@ -23,7 +23,7 @@ HOSTNAME=$(hostname -s)
 # The storage partition is mounted on /nfs, if you change this, you
 # must change profile.py also.
 #
-NFSDIR="/nfs"
+NFSDIR="/mydata"
 
 #
 # The name of the nfs network. If you change this, you must change

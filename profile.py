@@ -32,7 +32,7 @@ imageList = [
 # Do not change these unless you change the setup scripts too.
 nfsServerName = "nfs"
 nfsLanName    = "nfsLan"
-nfsDirectory  = "/nfs"
+nfsDirectory  = "/mydata"
 
 # Number of NFS clients (there is always a server)
 pc.defineParameter("clientCount", "Number of NFS clients",
