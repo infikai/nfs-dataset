@@ -22,7 +22,7 @@ request = pc.makeRequestRSpec()
 
 # Only Ubuntu images supported.
 imageList = [
-    ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU20-64-STD', 'UBUNTU 20.04'),
+    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:systemENV', 'SYS'),
     ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5horovod1', 'c240g5horovod1'),
     ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5Docker', 'UBUNTU 22.04 cuda12.6'),
     ('urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD', 'UBUNTU 22.04'),
@@ -95,6 +95,8 @@ for i in range(1, params.clientCount+1):
     iface = node.addInterface("interface%d" % i)
     iface.bandwidth = 25000000
     link.addInterface(iface)
+    bs = node.Blockstore("bs%d" % i, "/localdata")
+    bs.size = "300GB"
     # Initialization script for the clients
     node.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/nfs-client.sh"))
     pass
