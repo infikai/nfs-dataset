@@ -22,6 +22,7 @@ request = pc.makeRequestRSpec()
 
 # Only Ubuntu images supported.
 imageList = [
+    ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:kubernetes', 'UBUNTU 22.04 Kube'),
     ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:systemENV', 'SYS'),
     ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5horovod1', 'c240g5horovod1'),
     ('urn:publicid:IDN+wisc.cloudlab.us+image+dynamicgpu-PG0:c240g5Docker', 'UBUNTU 22.04 cuda12.6'),
